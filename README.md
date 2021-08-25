@@ -1,6 +1,7 @@
 # 사용법
 모든 파이썬 파일을 같은 경로에 놓고
-python3 main.py ALL
+
+- python3 main.py ALL
 
 # 코드설명
 
