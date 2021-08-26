@@ -2,7 +2,6 @@ import glob
 import re
 import time
 import pandas as pd
-import sqlite3
 
 def install_start(arr, data):
     arr[0] =  re.compile('StartTime=[\d/ :]*').findall(data)[0].replace("StartTime=","")
@@ -42,18 +41,19 @@ def time_convert(timestamp):
 
 
 def process():
-    arr = ['' for i in range(25)]
     ext_data = []
     files = glob.glob('./INSTALL/*')
 
     for file in files:
-        f = open(file, 'r', encoding='utf-16 LE')
-        data = f.read()
-        try:
-            arr = install_start(arr, data)
-            ext_data.append(arr)
-        except:
-            continue
+        with open(file, 'r', encoding='utf-16 LE') as f:
+            data = f.read()
+            try:
+
+                arr = install_start(['' for i in range(25)], data)
+                ext_data.append(arr)
+
+            except:
+                continue
     df = pd.DataFrame(ext_data)
     df.columns = ['StartTime', 'Name', 'Path', 'Size', 'Magic', 'SizeOfImage', 'PeChecksum', 'LinkDate', 'LinkerVersion', 'BinFileVersion', 'BinProductVersion', 'BinaryType', 'Created', 'Modified', 'LastAccessed', 'VerLanguage', 'Id', 'FileVersion', 'CompanyName', 'ProductVersion', 'PeImageType', 'PeSubsystem', 'CrcChecksum', 'FileSize', 'StopTime']
     df.to_csv('./install.csv', index=False)

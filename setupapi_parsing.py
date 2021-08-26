@@ -31,7 +31,7 @@ def process():
                     info['device'].append(device)
                     info['timestamp'].append(timestamp)
 
-    df = pd.DataFrame(info)
+    df = pd.DataFrame(info).drop_duplicates()
     df.to_csv('./setupapi.csv', index=False)
 
     return df

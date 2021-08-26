@@ -26,6 +26,10 @@ def data_parsing(data):
         System_FileName_value = i['System.FileName']['Value']
         System_FileName_type = i['System.FileName']['Type']
         System_ConnectedSearch_JumpList_value = i['System.ConnectedSearch.JumpList']['Value']
+
+        if len(System_ConnectedSearch_JumpList_value) != 2:
+            System_ConnectedSearch_JumpList_value = System_ConnectedSearch_JumpList_value[1:-1]
+
         System_ConnectedSearch_JumpList_type = i['System.ConnectedSearch.JumpList']['Type']
         System_ConnectedSearch_VoiceCommandExamples_value = i['System.ConnectedSearch.VoiceCommandExamples']['Value']
         System_ConnectedSearch_VoiceCommandExamples_type = i['System.ConnectedSearch.VoiceCommandExamples']['Type']
@@ -74,7 +78,6 @@ def data_parsing(data):
                 System_ItemNameDisplay_type)
 
         arr.append(case)
-
     return pd.DataFrame(arr)
 
 def process():
@@ -86,6 +89,8 @@ def process():
         arr = data_parsing(data)
         df = df.append(arr)
     df.columns = ['System_FileExtension_value', 'System_FileExtension_type', 'System_Software_ProductVersion_value', 'System_Software_ProductVersion_type', 'System_Kind_value', 'System_Kind_type', 'System_ParsingName_value', 'System_ParsingName_type', 'System_Software_TimesUsed_value', 'System_Software_TimesUsed_type', 'System_Tile_Background_value', 'System_Tile_Background_type', 'System_AppUserModel_PackageFullName_value', 'System_AppUserModel_PackageFullName_type', 'System_Identity_value', 'System_Identity_type', 'System_FileName_value', 'System_FileName_type', 'System_ConnectedSearch_JumpList_value', 'System_ConnectedSearch_JumpList_type', 'System_ConnectedSearch_VoiceCommandExamples_value', 'System_ConnectedSearch_VoiceCommandExamples_type', 'System_ItemType_value', 'System_ItemType_type', 'System_DateAccessed_value', 'System_DateAccessed_type', 'System_Tile_EncodedTargetPath_value', 'System_Tile_EncodedTargetPath_type', 'System_Tile_SmallLogoPath_value', 'System_Tile_SmallLogoPath_type', 'System_ItemNameDisplay_value', 'System_ItemNameDisplay_type' ]
-    df.to_csv('./appcache.csv', index=False)
+    df = df.drop_duplicates()
+
+    df.to_csv('./appcache.csv', index=False, encoding='utf-8-sig')
 
     return df

@@ -58,8 +58,18 @@ def save(path, regex, savepath):
 if __name__=="__main__":
 
     argv = sys.argv[1]
-    if argv != 'ALL' and argv != 'INSTALL' and argv != 'MRU' and argv != 'SETUPAPI':
+    if argv != 'ALL' and argv != 'INSTALL' and argv != 'AppCache' and argv != 'SETUPAPI':
         print_guide()
+
+    elif argv == 'INSTALL':
+        df_install = install.process()
+
+    elif argv == 'AppCache':
+        df_appcache = appcache.process()
+
+    elif argv == 'SETUPAPI':
+        df_setupapi = setupapi.process()
+
     elif argv == 'ALL':
         parse_artifact('ALL')
 
@@ -67,7 +77,7 @@ if __name__=="__main__":
         df_install  = install.process()
         df_appcache = appcache.process()
 
-        db_connection = db_handle.__init__('test')
+        db_connection = db_handle.__init__()
 
         df_setupapi.to_sql('setupapi', db_connection)
         df_install.to_sql('install', db_connection)

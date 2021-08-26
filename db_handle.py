@@ -1,7 +1,7 @@
 import sqlite3
 
 
-def __init__(db_name):
+def __init__():
     conn = conn = sqlite3.connect("artifact.db", isolation_level= None)
     cur = conn.cursor()
     #create_table(cur)
